@@ -1,9 +1,14 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
 
+try {
+  require("electron-reloader")(module);
+} catch (_) {}
+
 /* Code to open a window */
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
+    titleBarStyle: "hidden",
     width: 800,
     height: 600,
     webPreferences: {
@@ -22,7 +27,7 @@ app.whenReady().then(() => {
 
   // (Mac OS only ) Activating an app when no windows are open should open a new one
   app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length() === 0) createWindow();
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
 
