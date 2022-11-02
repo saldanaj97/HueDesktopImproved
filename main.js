@@ -8,7 +8,7 @@ try {
 /* Code to open a window */
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
-    titleBarStyle: "hidden",
+    //titleBarStyle: "hidden",
     width: 800,
     height: 600,
     webPreferences: {
