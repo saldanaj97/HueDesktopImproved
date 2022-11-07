@@ -87,4 +87,48 @@ const getLights = async (req, res) => {
   }
 };
 
-module.exports = { getLights };
+const getScenes = async (req, res) => {
+  try {
+    // See 'authenticatedApi' from getLights function)
+    const authenticatedApi = await discoverAndCreateUser();
+
+    // Get all of the scenes on the users bridge
+    const scenes = await authenticatedApi.scenes.getAll();
+
+    // Save all the important data we need
+    const userScenes = [];
+    scenes.forEach((scene) => {
+      sceneInfo = new Object();
+      sceneInfo.id = scene["data"]["id"];
+      sceneInfo.type = scene["data"]["type"];
+      sceneInfo.name = scene["data"]["name"];
+      sceneInfo.group = scene["data"]["group"];
+      sceneInfo.lights = scene["data"]["lights"];
+      userScenes.push(sceneInfo);
+    });
+
+    // Send a response with the data
+    res.send({ success: true, userScenes });
+  } catch (error) {
+    res.send({ success: false, error: error.message });
+  }
+};
+
+const setScene = async (req, res) => {
+  //console.log(req.body);
+  //let sceneId = req.body["id"];
+  try {
+    // See 'authenticatedApi' from getLights function)
+    const authenticatedApi = await discoverAndCreateUser();
+
+    // Get all of the scenes on the users bridge
+    const sceneWasUpdated = await authenticatedApi.scenes.activateScene("55ADbA0y8dKnJuY");
+
+    // Send a response with the data
+    res.send({ success: sceneWasUpdated });
+  } catch (error) {
+    res.send({ success: false, error: error.message });
+  }
+};
+
+module.exports = { getLights, getScenes, setScene };
