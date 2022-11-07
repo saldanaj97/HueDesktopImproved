@@ -1,5 +1,11 @@
+# Do not push to version control
 node_modules
+bridgelogin.json
 out
+
+# Coding env files
 .vscode
 .DS_Store
+
+# .env
 .env

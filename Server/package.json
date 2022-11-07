@@ -12,10 +12,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.1.3",
     "dotenv": "^16.0.3",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "fetch": "^1.1.0",
+    "node-fetch": "^3.2.10",
+    "node-hue-api": "^5.0.0-beta.14",
+    "ssl-root-cas": "^1.3.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "npm-check-updates": "^16.3.16"
   }
 }
