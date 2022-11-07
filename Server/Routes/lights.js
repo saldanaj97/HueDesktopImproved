@@ -3,6 +3,6 @@ const Lights = require("../Controllers/lights");
 
 const LightsRouter = express.Router();
 
-LightsRouter.get("/mylights", Lights.getLights); //.get("/userlights", Lights.getLights);
+LightsRouter.get("/lights", Lights.getLights).get("/scenes", Lights.getScenes).post("/update", Lights.setScene);
 
 module.exports = LightsRouter;

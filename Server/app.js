@@ -11,7 +11,7 @@ const port = process.env.PORT || 3000;
 const lights = require("./Routes/lights");
 
 // Routes
-app.use("/lights", lights);
+app.use("/bridge", lights);
 
 app.get("/", (req, res) => {
   res.send("Hello world!");
