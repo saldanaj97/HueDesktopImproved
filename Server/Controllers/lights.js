@@ -2,7 +2,6 @@ const v3 = require("node-hue-api").v3,
   discovery = v3.discovery,
   hueApi = v3.api;
 const fs = require("fs");
-const { off } = require("process");
 const appName = "improved-hue-ui-api";
 const deviceName = "dev";
 
