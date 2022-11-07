@@ -115,14 +115,13 @@ const getScenes = async (req, res) => {
 };
 
 const setScene = async (req, res) => {
-  //console.log(req.body);
-  //let sceneId = req.body["id"];
+  let sceneId = req.body["id"];
   try {
     // See 'authenticatedApi' from getLights function)
     const authenticatedApi = await discoverAndCreateUser();
 
     // Get all of the scenes on the users bridge
-    const sceneWasUpdated = await authenticatedApi.scenes.activateScene("55ADbA0y8dKnJuY");
+    const sceneWasUpdated = await authenticatedApi.scenes.activateScene(sceneId);
 
     // Send a response with the data
     res.send({ success: sceneWasUpdated });
