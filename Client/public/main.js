@@ -1,5 +1,4 @@
 const { app, BrowserWindow } = require("electron");
-const path = require("path");
 
 try {
   require("electron-reloader")(module);
@@ -9,26 +8,28 @@ try {
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
     //titleBarStyle: "hidden",
-    width: 800,
-    height: 600,
+    width: 1000,
+    height: 700,
     webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
+      nodeIntegration: true,
     },
   });
 
-  mainWindow.loadFile("index.html");
+  // Load the index.html from file
+  mainWindow.loadURL("http://localhost:3000");
+
+  // Open the DevTools.
+  mainWindow.webContents.openDevTools();
 };
 
 /* This method will be called when Electron has finished
    initialization and is ready to create browser windows.
    Some APIs can only be used after this event occurs. */
-app.whenReady().then(() => {
-  createWindow();
+app.whenReady().then(createWindow);
 
-  // (Mac OS only ) Activating an app when no windows are open should open a new one
-  app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
+// (Mac OS only ) Activating an app when no windows are open should open a new one
+app.on("activate", () => {
+  if (BrowserWindow.getAllWindows().length === 0) createWindow();
 });
 
 /* Quit when all windows are closed, except on macOS. There, it's common
