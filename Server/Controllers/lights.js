@@ -115,21 +115,6 @@ const getScenes = async (req, res) => {
   }
 };
 
-const setScene = async (req, res) => {
-  try {
-    // See 'authenticatedApi' from getLights function)
-    const authenticatedApi = await discoverAndCreateUser();
-
-    // Get all of the scenes on the users bridge
-    const sceneWasUpdated = await authenticatedApi.scenes.activateScene(req.body["id"]);
-
-    // Send a response with the data
-    res.send({ success: sceneWasUpdated });
-  } catch (error) {
-    res.send({ success: false, error: error.message });
-  }
-};
-
 const changePowerStatus = async (req, res) => {
   try {
     // See 'authenticatedApi' from getLights function)
@@ -157,13 +142,13 @@ const changeScene = async (req, res) => {
     const authenticatedApi = await discoverAndCreateUser();
 
     // Send req to change the current scene
-    const sceneUpdated = authenticatedApi.activateScene(req.body.id);
+    const sceneUpdated = authenticatedApi.scenes.activateScene(req.body.id);
 
     // Send a response with the data
-    res.send({ success: sceneUpdated });
+    res.send({ success: true, sceneUpdated });
   } catch (error) {
     res.send({ success: false, error: error.message });
   }
 };
 
-module.exports = { getLights, getScenes, setScene, changePowerStatus, changeScene };
+module.exports = { getLights, getScenes, changePowerStatus, changeScene };
