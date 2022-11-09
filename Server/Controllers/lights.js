@@ -1,6 +1,7 @@
 const v3 = require("node-hue-api").v3,
   discovery = v3.discovery,
   hueApi = v3.api;
+const LightState = require("node-hue-api").v3.lightStates.LightState;
 const fs = require("fs");
 const appName = "improved-hue-ui-api";
 const deviceName = "dev";
@@ -129,4 +130,40 @@ const setScene = async (req, res) => {
   }
 };
 
-module.exports = { getLights, getScenes, setScene };
+const changePowerStatus = async (req, res) => {
+  try {
+    // See 'authenticatedApi' from getLights function)
+    const authenticatedApi = await discoverAndCreateUser();
+
+    // Perform the opposite of the lights current power state
+    const lightState = new LightState();
+    let poweredOn = !req.body.on;
+    if (poweredOn) {
+      lightState.off();
+    }
+
+    const powerStatusUpdated = authenticatedApi.lights.setLightState(req.body.id, lightState);
+
+    // Send a response with the data
+    res.send({ success: powerStatusUpdated });
+  } catch (error) {
+    res.send({ success: false, error: error.message });
+  }
+};
+
+const changeScene = async (req, res) => {
+  try {
+    // See 'authenticatedApi' from getLights function)
+    const authenticatedApi = await discoverAndCreateUser();
+
+    // Send req to change the current scene
+    const sceneUpdated = authenticatedApi.activateScene(req.body.id);
+
+    // Send a response with the data
+    res.send({ success: sceneUpdated });
+  } catch (error) {
+    res.send({ success: false, error: error.message });
+  }
+};
+
+module.exports = { getLights, getScenes, setScene, changePowerStatus, changeScene };
