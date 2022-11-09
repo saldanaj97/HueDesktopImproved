@@ -120,17 +120,21 @@ const changePowerStatus = async (req, res) => {
     // See 'authenticatedApi' from getLights function)
     const authenticatedApi = await discoverAndCreateUser();
 
-    // Perform the opposite of the lights current power state
-    const lightState = new LightState();
-    let poweredOn = !req.body.on;
-    if (poweredOn) {
-      lightState.off();
-    }
+    //let poweredOn = !req.body.lightState.on;
+    /*     if (req.body.lightState.on) {
+      poweredOn = !req.body.lightState.on;
+    } else {
+      poweredOn = true;
+    } */
 
-    const powerStatusUpdated = authenticatedApi.lights.setLightState(req.body.id, lightState);
-
+    // Update the lightstate obj
+    const powerStatusUpdated = await authenticatedApi.lights.setLightState(req.body.id, { on: !req.body.lightState.on });
     // Send a response with the data
-    res.send({ success: powerStatusUpdated });
+    if (powerStatusUpdated) {
+      res.send({ success: true, lightstate: req.body.lightState });
+    } else {
+      throw error("Power status not updated");
+    }
   } catch (error) {
     res.send({ success: false, error: error.message });
   }
