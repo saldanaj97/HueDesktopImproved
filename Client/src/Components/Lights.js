@@ -5,29 +5,30 @@ import { Box, Heading } from "@chakra-ui/layout";
 import { getLights } from "./APIcalls";
 
 export default function Lights() {
-  const [lights, setLights] = useState([]);
+  const [lights, setLights] = useState({ success: "", userLights: [] });
 
   useEffect(() => {
     getUsersLights();
-  });
+  }, []);
 
   const getUsersLights = async () => {
     const data = await getLights();
+    setLights(data);
+    CreateUserLightButtons();
   };
 
-  let myLights = [
-    { id: 1, name: 1 },
-    { id: 2, name: 2 },
-    { id: 3, name: 3 },
-  ];
+  const CreateUserLightButtons = () => {
+    let userLightButtons = lights.userLights.map((light) => {
+      return <IconButton key={light.id} placeholder={light.name} as={BsLightbulbFill} color='black' background='transparent' />;
+    });
+    return userLightButtons;
+  };
 
   return (
     <div className='lights-container'>
       <Heading className='lights-heading'>My Lights</Heading>
       <Box className='lights-list'>
-        {myLights.map((light) => {
-          return <IconButton key={light.id} placeholder={light.name} as={BsLightbulbFill} color='black' background='transparent' />;
-        })}
+        <CreateUserLightButtons />
       </Box>
     </div>
   );

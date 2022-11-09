@@ -9,23 +9,33 @@ export default function Scenes() {
 
   useEffect(() => {
     getUserScenes();
-  });
+  }, []);
 
+  // Function that will get and set the users scenes from the backend with API calls
   const getUserScenes = async () => {
     const data = await getScenes();
     setScenes(data);
     CreateUserSceneButtons();
+
   };
 
+  // Function that will create the user scene buttons
   const CreateUserSceneButtons = () => {
-    let sceneButtons = scenes.userScenes.map((scene) => {
-      return (
-        <Button key={scene.id} color='black' background='red'>
-          <Text>{scene.name}</Text>{" "}
-        </Button>
-      );
-    });
+    let sceneButtons = (
+      <Box>
+        <Text>No Scenes Found</Text>
+      </Box>
+    );
 
+    if (scenes.userScenes.length != 0) {
+      sceneButtons = scenes.userScenes.map((scene) => {
+        return (
+          <Button key={scene.id} color='black' background='red'>
+            <Text>{scene.name}</Text>{" "}
+          </Button>
+        );
+      });
+    }
     return sceneButtons;
   };
 
