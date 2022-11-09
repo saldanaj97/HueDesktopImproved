@@ -11,12 +11,14 @@ export default function Lights() {
     getUsersLights();
   }, []);
 
+  // Function that will handle getting and setting the users light data
   const getUsersLights = async () => {
     const data = await getLights();
     setLights(data);
     CreateUserLightButtons();
   };
 
+  // Function that will be responsible for creating the light buttons for every light the user has connected to a bridge
   const CreateUserLightButtons = () => {
     let userLightButtons = lights.userLights.map((light) => {
       return <IconButton key={light.id} placeholder={light.name} as={BsLightbulbFill} color='black' background='transparent' />;
