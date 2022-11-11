@@ -19,6 +19,18 @@ export default function Lights() {
     CreateUserLightButtons();
   };
 
+  // Function that will be responsible for turning a light on and off on click
+  const handlePowerClick = async (light) => {
+    // Send the req to change the power for a specific light
+    const stateUpdated = await setNewLight(light.id, light.lightState).then((response) => response);
+
+    // Update the local copy of the light state in our lights arr
+    light.lightState.on = !light.lightState.on;
+
+    // Return the new state of the lights power
+    return light.lightState.on;
+  };
+
   // Function that will be responsible for creating the light buttons for every light the user has connected to a bridge
   const CreateUserLightButtons = () => {
     let lightButtons = (
@@ -37,8 +49,7 @@ export default function Lights() {
             color='black'
             background='transparent'
             onClick={() => {
-              setNewLight(light.id, light.lightState);
-              getUsersLights();
+              handlePowerClick(light);
             }}
           />
         );

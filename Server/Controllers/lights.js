@@ -1,6 +1,7 @@
 const v3 = require("node-hue-api").v3,
   discovery = v3.discovery,
   hueApi = v3.api;
+const axios = require("axios");
 const LightState = require("node-hue-api").v3.lightStates.LightState;
 const fs = require("fs");
 const appName = "improved-hue-ui-api";
@@ -119,7 +120,10 @@ const changePowerStatus = async (req, res) => {
   try {
     // See 'authenticatedApi' from getLights function)
     const authenticatedApi = await discoverAndCreateUser();
-
+    console.log("power on", !req.body.lightState.on);
+    let powerStatusUpdated = await axios.put(`http://192.168.1.150/api/E25AJHybDN2zoMvSjdzMDs6lun6uxIgybgT9TwiF/lights/${req.body.id}/state`, {
+      on: !req.body.lightState.on,
+    });
     //let poweredOn = !req.body.lightState.on;
     /*     if (req.body.lightState.on) {
       poweredOn = !req.body.lightState.on;
@@ -128,13 +132,10 @@ const changePowerStatus = async (req, res) => {
     } */
 
     // Update the lightstate obj
-    const powerStatusUpdated = await authenticatedApi.lights.setLightState(req.body.id, { on: !req.body.lightState.on });
+    //let powerStatusUpdated = await authenticatedApi.lights.setLightState(req.body.id, { on: !req.body.lightState.on });
+
     // Send a response with the data
-    if (powerStatusUpdated) {
-      res.send({ success: true, lightstate: req.body.lightState });
-    } else {
-      throw error("Power status not updated");
-    }
+    res.send({ success: true, message: powerStatusUpdated.data });
   } catch (error) {
     res.send({ success: false, error: error.message });
   }

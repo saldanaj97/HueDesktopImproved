@@ -16,11 +16,8 @@ export const getScenes = async () => {
 
 // Function to change the state of a light
 export const setNewLight = async (id, lightState) => {
-  console.log("before", lightState);
-  const data = await axios.post(BRIDGE_API_URL + "/power_update", { id: id, lightState: lightState }).then((response) => console.log(response));
-  //lightState = data.lightState;
-  //console.log("after", data);
-  //return lightState;
+  const response = await axios.post(BRIDGE_API_URL + "/power_update", { id: id, lightState: lightState });
+  return response;
 };
 
 // Function to carry out the changing of a scene
