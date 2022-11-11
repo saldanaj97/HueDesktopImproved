@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Text } from "@chakra-ui/react";
+import { Grid, GridItem, Flex, Text } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/button";
 import { Box, Heading } from "@chakra-ui/layout";
 import { getScenes, setNewScene } from "./APIcalls";
@@ -28,20 +27,24 @@ export default function Scenes() {
     );
 
     if (scenes.userScenes.length != 0) {
-      sceneButtons = scenes.userScenes.map((scene) => {
-        return (
-          <Button
-            key={scene.id}
-            color='black'
-            background='red'
-            onClick={() => {
-              setNewScene(scene.id);
-            }}
-          >
-            <Text>{scene.name}</Text>{" "}
-          </Button>
-        );
-      });
+      {
+        sceneButtons = scenes.userScenes.map((scene) => {
+          return (
+            <GridItem>
+              <Button
+                key={scene.id}
+                color='black'
+                background='red'
+                onClick={() => {
+                  setNewScene(scene.id);
+                }}
+              >
+                <Text>{scene.name}</Text>{" "}
+              </Button>
+            </GridItem>
+          );
+        });
+      }
     }
     return sceneButtons;
   };
@@ -49,9 +52,9 @@ export default function Scenes() {
   return (
     <div className='scenes-container'>
       <Heading className='scenes-heading'>My Scenes</Heading>
-      <Box className='scenes-list'>
+      <Grid className='scenes-list' templateColumns='repeat(3, 1fr)' gap={5} margin={"15px"}>
         <CreateUserSceneButtons />
-      </Box>
+      </Grid>
     </div>
   );
 }
