@@ -16,6 +16,7 @@ const corsOptions = {
   origin: ["http://localhost:3000", "http://localhost:3001"],
   allowedHeaders: ["Origin", "X-Requested-With", "Content", "Accept", "Content-Type", "Authorization"],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  credentials: true,
 };
 app.use(cors(corsOptions));
 app.use(express.json());
