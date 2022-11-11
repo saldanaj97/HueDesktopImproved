@@ -23,7 +23,7 @@ export default function Lights() {
   const CreateUserLightButtons = () => {
     let lightButtons = (
       <Box>
-        <Text>No Scenes Found</Text>
+        <Text>No Lights Found</Text>
       </Box>
     );
 
