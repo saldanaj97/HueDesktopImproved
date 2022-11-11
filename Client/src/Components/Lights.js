@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Text } from "@chakra-ui/react";
 import { IconButton } from "@chakra-ui/button";
 import { /* BsLightbulb, */ BsLightbulbFill } from "react-icons/bs";
 import { Box, Heading } from "@chakra-ui/layout";
@@ -20,22 +21,31 @@ export default function Lights() {
 
   // Function that will be responsible for creating the light buttons for every light the user has connected to a bridge
   const CreateUserLightButtons = () => {
-    let userLightButtons = lights.userLights.map((light) => {
-      return (
-        <IconButton
-          key={light.id}
-          placeholder={light.name}
-          as={BsLightbulbFill}
-          color='black'
-          background='transparent'
-          onClick={() => {
-            setNewLight(light.id, light.lightState);
-            getUsersLights();
-          }}
-        />
-      );
-    });
-    return userLightButtons;
+    let lightButtons = (
+      <Box>
+        <Text>No Scenes Found</Text>
+      </Box>
+    );
+
+    if (lights.userLights.length !== 0) {
+      let userLightButtons = lights.userLights.map((light) => {
+        return (
+          <IconButton
+            key={light.id}
+            placeholder={light.name}
+            as={BsLightbulbFill}
+            color='black'
+            background='transparent'
+            onClick={() => {
+              setNewLight(light.id, light.lightState);
+              getUsersLights();
+            }}
+          />
+        );
+      });
+      return userLightButtons;
+    }
+    return lightButtons;
   };
 
   return (
