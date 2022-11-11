@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { IconButton } from "@chakra-ui/button";
-import { /* BsLightbulb, */ BsLightbulbFill } from "react-icons/bs";
+import { BsLightbulbFill } from "react-icons/bs";
 import { Box, Heading } from "@chakra-ui/layout";
 import { getLights, setNewLight } from "./APIcalls";
 
@@ -33,36 +33,42 @@ export default function Lights() {
 
   // Function that will be responsible for creating the light buttons for every light the user has connected to a bridge
   const CreateUserLightButtons = () => {
-    let lightButtons = (
-      <Box>
-        <Text>No Lights Found</Text>
-      </Box>
-    );
-
     if (lights.userLights.length !== 0) {
       let userLightButtons = lights.userLights.map((light) => {
         return (
-          <IconButton
-            key={light.id}
-            placeholder={light.name}
-            as={BsLightbulbFill}
-            color='black'
-            background='transparent'
-            onClick={() => {
-              handlePowerClick(light);
-            }}
-          />
+          <Flex className='single-light-container' flexDirection='column' justifyContent='center' alignContent='center' width='10%' height='50%'>
+            <Flex direction='row' justifyContent='center'>
+              <IconButton
+                key={light.id}
+                placeholder={light.name}
+                as={BsLightbulbFill}
+                color='black'
+                background='transparent'
+                onClick={() => {
+                  handlePowerClick(light);
+                }}
+              />
+            </Flex>
+            <Text className='light-name' fontSize='md'>
+              {light.name}
+            </Text>
+          </Flex>
         );
       });
       return userLightButtons;
+    } else {
+      return (
+        <Box>
+          <Text>No Lights Found</Text>
+        </Box>
+      );
     }
-    return lightButtons;
   };
 
   return (
     <div className='lights-container'>
       <Heading className='lights-heading'>My Lights</Heading>
-      <Box className='lights-list'>
+      <Box className='lights-list' display='flex' justifyContent='center' margin={"15px"} flexWrap='wrap'>
         <CreateUserLightButtons />
       </Box>
     </div>
