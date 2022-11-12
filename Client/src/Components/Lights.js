@@ -4,6 +4,7 @@ import { IconButton } from "@chakra-ui/button";
 import { BsLightbulbFill } from "react-icons/bs";
 import { Box, Heading, Wrap, WrapItem } from "@chakra-ui/layout";
 import { getLights, setNewLight } from "./APIcalls";
+import { theme } from "../index";
 
 export default function Lights() {
   const [lights, setLights] = useState({ success: "", userLights: [] });
@@ -42,13 +43,13 @@ export default function Lights() {
                 key={light.id}
                 placeholder={light.name}
                 as={BsLightbulbFill}
-                color='black'
+                color={theme.mainColors[500]}
                 background='transparent'
                 onClick={() => {
                   handlePowerClick(light);
                 }}
               />
-              <Text className='light-name' fontSize='md'>
+              <Text className='light-name' fontSize='md' color={theme.mainColors[500]}>
                 {light.name}
               </Text>
             </Box>
@@ -67,7 +68,9 @@ export default function Lights() {
 
   return (
     <div className='lights-container'>
-      <Heading className='lights-heading'>My Lights</Heading>
+      <Heading className='lights-heading' color={"white"}>
+        My Lights
+      </Heading>
       <Wrap className='lights-list' justify='center' spacing='50px' margin={"15px"}>
         <CreateUserLightButtons />
       </Wrap>

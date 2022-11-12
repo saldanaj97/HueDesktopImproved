@@ -3,6 +3,7 @@ import { Text, Wrap, WrapItem } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/button";
 import { Box, Heading } from "@chakra-ui/layout";
 import { getScenes, setNewScene } from "./APIcalls";
+import { theme } from "../index";
 
 export default function Scenes() {
   const [scenes, setScenes] = useState({ success: "", userScenes: [] });
@@ -21,7 +22,7 @@ export default function Scenes() {
   // Function that will create the user scene buttons
   const CreateUserSceneButtons = () => {
     let sceneButtons = (
-      <Box width=''>
+      <Box>
         <Text>No Scenes Found</Text>
       </Box>
     );
@@ -35,7 +36,7 @@ export default function Scenes() {
                 key={scene.id}
                 width='100%'
                 color='black'
-                background='red'
+                background={theme.mainColors[600]}
                 onClick={() => {
                   setNewScene(scene.id);
                 }}
@@ -52,7 +53,9 @@ export default function Scenes() {
 
   return (
     <div className='scenes-container'>
-      <Heading className='scenes-heading'>My Scenes</Heading>
+      <Heading className='scenes-heading' color={"white"}>
+        My Scenes
+      </Heading>
       <Box>
         <Wrap className='scenes-list' spacing='20px' margin={"15px"} justify='center'>
           <CreateUserSceneButtons />

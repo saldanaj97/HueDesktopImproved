@@ -18,9 +18,6 @@ const createWindow = () => {
     },
   });
 
-  // Background color of the window
-  mainWindow.setBackgroundColor("#5e5e5e");
-
   // Load the index.html from file
   mainWindow.loadURL("http://localhost:3000");
 

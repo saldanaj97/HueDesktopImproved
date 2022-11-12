@@ -1,13 +1,17 @@
-import "./App.css";
+import { ChakraProvider } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import Lights from "./Components/Lights";
 import Scenes from "./Components/Scenes";
+import "./App.css";
 
 function App() {
   return (
-    <div className='App'>
-      <Lights />
-      <Scenes />
-    </div>
+    <ChakraProvider>
+      <Box className='App'>
+        <Lights />
+        <Scenes />
+      </Box>
+    </ChakraProvider>
   );
 }
 
