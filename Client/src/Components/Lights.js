@@ -43,13 +43,14 @@ export default function Lights() {
                 key={light.id}
                 placeholder={light.name}
                 as={BsLightbulbFill}
-                color={theme.mainColors[500]}
-                background='transparent'
+                color={"white"}
+                background={theme.mainColors[600]}
+                padding='7px'
                 onClick={() => {
                   handlePowerClick(light);
                 }}
               />
-              <Text className='light-name' fontSize='md' color={theme.mainColors[500]}>
+              <Text className='light-name' fontSize='md' color={"white"}>
                 {light.name}
               </Text>
             </Box>
