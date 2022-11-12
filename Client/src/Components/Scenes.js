@@ -39,7 +39,7 @@ export default function Scenes() {
                   setNewScene(scene.id);
                 }}
               >
-                <Text>{scene.name}</Text>{" "}
+                <Text color='white'>{scene.name}</Text>{" "}
               </Button>
             </GridItem>
           );
