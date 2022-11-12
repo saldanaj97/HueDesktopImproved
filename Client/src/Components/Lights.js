@@ -45,7 +45,9 @@ export default function Lights() {
                 as={BsLightbulbFill}
                 color={"white"}
                 background={theme.mainColors[600]}
+                size='lg'
                 padding='7px'
+                rounded={"15px"}
                 onClick={() => {
                   handlePowerClick(light);
                 }}
@@ -68,13 +70,13 @@ export default function Lights() {
   };
 
   return (
-    <div className='lights-container'>
+    <Box className='lights-container' paddingTop='15px'>
       <Heading className='lights-heading' color={"white"}>
         My Lights
       </Heading>
       <Wrap className='lights-list' justify='center' spacing='50px' margin={"15px"}>
         <CreateUserLightButtons />
       </Wrap>
-    </div>
+    </Box>
   );
 }

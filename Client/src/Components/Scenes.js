@@ -36,6 +36,7 @@ export default function Scenes() {
                 key={scene.id}
                 width='100%'
                 color='black'
+                rounded={"15px"}
                 background={theme.mainColors[600]}
                 onClick={() => {
                   setNewScene(scene.id);
@@ -52,7 +53,7 @@ export default function Scenes() {
   };
 
   return (
-    <div className='scenes-container'>
+    <div className='scenes-container' paddingBottom='0px 5px'>
       <Heading className='scenes-heading' color={"white"}>
         My Scenes
       </Heading>
