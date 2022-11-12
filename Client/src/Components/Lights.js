@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Flex, Text } from "@chakra-ui/react";
 import { IconButton } from "@chakra-ui/button";
 import { BsLightbulbFill } from "react-icons/bs";
-import { Box, Heading } from "@chakra-ui/layout";
+import { Box, Heading, Wrap, WrapItem } from "@chakra-ui/layout";
 import { getLights, setNewLight } from "./APIcalls";
 
 export default function Lights() {
@@ -36,8 +36,8 @@ export default function Lights() {
     if (lights.userLights.length !== 0) {
       let userLightButtons = lights.userLights.map((light) => {
         return (
-          <Flex className='single-light-container' flexDirection='column' justifyContent='center' alignContent='center' width='10%' height='50%'>
-            <Flex direction='row' justifyContent='center'>
+          <WrapItem className='single-light-container'>
+            <Box width='85px'>
               <IconButton
                 key={light.id}
                 placeholder={light.name}
@@ -48,11 +48,11 @@ export default function Lights() {
                   handlePowerClick(light);
                 }}
               />
-            </Flex>
-            <Text className='light-name' fontSize='md'>
-              {light.name}
-            </Text>
-          </Flex>
+              <Text className='light-name' fontSize='md'>
+                {light.name}
+              </Text>
+            </Box>
+          </WrapItem>
         );
       });
       return userLightButtons;
@@ -68,9 +68,9 @@ export default function Lights() {
   return (
     <div className='lights-container'>
       <Heading className='lights-heading'>My Lights</Heading>
-      <Box className='lights-list' display='flex' justifyContent='center' margin={"15px"} flexWrap='wrap'>
+      <Wrap className='lights-list' justify='center' spacing='50px' margin={"15px"}>
         <CreateUserLightButtons />
-      </Box>
+      </Wrap>
     </div>
   );
 }
