@@ -7,7 +7,8 @@ const appName = "improved-hue-ui-api";
 const deviceName = "dev";
 
 async function discoverBridge() {
-  const discoveryResults = await discovery.upnpSearch();
+  // We use upnp search but in the code, upnp is defined to use mdns since upnp is deprecated
+  const discoveryResults = await discovery.upnpSearch(1000);
   if (discoveryResults.length === 0) {
     console.error("Failed to resolve any Hue Bridges");
   }
