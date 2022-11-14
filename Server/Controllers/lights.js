@@ -120,7 +120,6 @@ const changePowerStatus = async (req, res) => {
   try {
     // See 'authenticatedApi' from getLights function)
     const authenticatedApi = await discoverAndCreateUser();
-    console.log("power on", !req.body.lightState.on);
     let powerStatusUpdated = await axios.put(`http://192.168.1.150/api/E25AJHybDN2zoMvSjdzMDs6lun6uxIgybgT9TwiF/lights/${req.body.id}/state`, {
       on: !req.body.lightState.on,
     });
