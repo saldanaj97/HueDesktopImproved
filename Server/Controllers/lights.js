@@ -124,15 +124,6 @@ const changePowerStatus = async (req, res) => {
     let powerStatusUpdated = await axios.put(`http://192.168.1.150/api/E25AJHybDN2zoMvSjdzMDs6lun6uxIgybgT9TwiF/lights/${req.body.id}/state`, {
       on: !req.body.lightState.on,
     });
-    //let poweredOn = !req.body.lightState.on;
-    /*     if (req.body.lightState.on) {
-      poweredOn = !req.body.lightState.on;
-    } else {
-      poweredOn = true;
-    } */
-
-    // Update the lightstate obj
-    //let powerStatusUpdated = await authenticatedApi.lights.setLightState(req.body.id, { on: !req.body.lightState.on });
 
     // Send a response with the data
     res.send({ success: true, message: powerStatusUpdated.data });
