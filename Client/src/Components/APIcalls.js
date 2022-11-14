@@ -2,6 +2,10 @@ import axios from "axios";
 
 const BRIDGE_API_URL = process.env.REACT_APP_BRIDGE_URL || "http://localhost:3001/bridge";
 
+/************************************/
+/************* GETTERS *************/
+/************************************/
+
 // API call to get the users lights
 export const getLights = async () => {
   const { success, userLights } = await axios.get(BRIDGE_API_URL + "/lights").then((response) => response.data);
@@ -13,6 +17,10 @@ export const getScenes = async () => {
   const { success, userScenes } = await axios.get(BRIDGE_API_URL + "/scenes").then((response) => response.data);
   return { success, userScenes };
 };
+
+/************************************/
+/************* SETTERS *************/
+/************************************/
 
 // Function to change the state of a light
 export const setNewLight = async (id, lightState) => {

@@ -22,9 +22,6 @@ export default function Lights() {
 
   // Function that will be responsible for turning a light on and off on click
   const handlePowerClick = async (light) => {
-    // Send the req to change the power for a specific light
-    const stateUpdated = await setNewLight(light.id, light.lightState).then((response) => response);
-
     // Update the local copy of the light state in our lights arr
     light.lightState.on = !light.lightState.on;
 

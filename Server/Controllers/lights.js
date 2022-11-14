@@ -2,14 +2,12 @@ const v3 = require("node-hue-api").v3,
   discovery = v3.discovery,
   hueApi = v3.api;
 const axios = require("axios");
-const LightState = require("node-hue-api").v3.lightStates.LightState;
 const fs = require("fs");
 const appName = "improved-hue-ui-api";
 const deviceName = "dev";
 
 async function discoverBridge() {
   const discoveryResults = await discovery.upnpSearch();
-  //console.log(discoveryResults[0].ipaddress);
   if (discoveryResults.length === 0) {
     console.error("Failed to resolve any Hue Bridges");
   }
@@ -118,8 +116,6 @@ const getScenes = async (req, res) => {
 
 const changePowerStatus = async (req, res) => {
   try {
-    // See 'authenticatedApi' from getLights function)
-    const authenticatedApi = await discoverAndCreateUser();
     let powerStatusUpdated = await axios.put(`http://192.168.1.150/api/E25AJHybDN2zoMvSjdzMDs6lun6uxIgybgT9TwiF/lights/${req.body.id}/state`, {
       on: !req.body.lightState.on,
     });
