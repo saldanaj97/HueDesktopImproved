@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Flex, IconButton, Text } from "@chakra-ui/react";
+import { Box, Flex, IconButton } from "@chakra-ui/react";
 import { IoMdSettings } from "react-icons/io";
 import { theme } from "../index";
 
