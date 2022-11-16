@@ -54,8 +54,8 @@ export default function Scenes() {
 
   return (
     <div className='scenes-container' paddingBottom='0px 5px'>
-      <Heading className='scenes-heading' color={"white"}>
-        My Scenes
+      <Heading className='scenes-heading' color={"white"} fontWeight='normal' size='lg'>
+        Scenes
       </Heading>
       <Box>
         <Wrap className='scenes-list' spacing='20px' margin={"15px"} justify='center'>

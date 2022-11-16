@@ -68,8 +68,8 @@ export default function Lights() {
 
   return (
     <Box className='lights-container' paddingTop='15px'>
-      <Heading className='lights-heading' color={"white"}>
-        My Lights
+      <Heading className='lights-heading' color={"white"} fontWeight='normal' size='lg'>
+        Lights
       </Heading>
       <Wrap className='lights-list' justify='center' spacing='50px' margin={"15px"}>
         <CreateUserLightButtons />
