@@ -53,7 +53,7 @@ export default function Scenes() {
   };
 
   return (
-    <div className='scenes-container' paddingBottom='0px 5px'>
+    <Box className='scenes-container' paddingBottom='0px 5px'>
       <Heading className='scenes-heading' color={"white"} fontWeight='normal' size='lg'>
         Scenes
       </Heading>
@@ -62,6 +62,6 @@ export default function Scenes() {
           <CreateUserSceneButtons />
         </Wrap>
       </Box>
-    </div>
+    </Box>
   );
 }

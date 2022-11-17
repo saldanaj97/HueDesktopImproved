@@ -35,7 +35,7 @@ export default function Lights() {
       let userLightButtons = lights.userLights.map((light) => {
         return (
           <WrapItem className='single-light-container'>
-            <Box width='85px'>
+            <Flex width='85px' direction='column' align='center'>
               <IconButton
                 key={light.id}
                 placeholder={light.name}
@@ -52,7 +52,7 @@ export default function Lights() {
               <Text className='light-name' fontSize='md' color={"white"}>
                 {light.name}
               </Text>
-            </Box>
+            </Flex>
           </WrapItem>
         );
       });
