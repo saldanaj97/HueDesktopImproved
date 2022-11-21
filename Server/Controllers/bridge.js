@@ -16,72 +16,56 @@ async function discoverBridge() {
   return discoveryResults[0].ipaddress;
 }
 
-async function discoverAndCreateUser() {
-  // Get the IP address of the users bridge
+// Function that will be used to generate bridge login data for a user with no credentials
+async function getBridgeUserData() {
+  // Get and set the IP address of the users bridge
   const ipAddress = await discoverBridge();
 
   // Create an unauthenticated instance of the Hue API so that we can create a new user
   const unauthenticatedApi = await hueApi.createLocal(ipAddress).connect();
 
   try {
-    // Variables needed
-    var userDataFile = { username: "", appkey: "" };
-    let path = "./Controllers/bridgelogin.json";
+    // Create new user data
+    let user = await unauthenticatedApi.users.createUser(appName, deviceName);
+    console.log(user);
 
-    // If the file containing the user data to login to communicate with their bridge does not exist, make it
-    if (!fs.existsSync(path)) {
-      fs.writeFile("./Controllers/bridgelogin.json", JSON.stringify(userDataFile));
-    }
-
-    // Get the users login data from the bridge login file
-    userDataFile = fs.readFileSync("./Controllers/bridgelogin.json");
-    let bridgeLoginData = JSON.parse(userDataFile);
-
-    // If there is no data in the bridgelogin.js file, create new user bridge login data and add it to the file
-    if (bridgeLoginData.username == "" || bridgeLoginData.clientkey == "") {
-      let user = await unauthenticatedApi.users.createUser(appName, deviceName);
-      fs.writeFile("./Controllers/bridgelogin.json", JSON.stringify(user));
-    }
-    // Get the username from the users bridge data
-    let { username } = bridgeLoginData;
-
-    // Create a new API instance that is authenticated with the user
-    const authenticatedApi = await hueApi.createLocal(ipAddress).connect(username);
-
-    // Return the authd API instance
-    return authenticatedApi;
+    // Return the user obj containing the data to communicate with bridge successfully
+    return { success: true, user, ipAddress };
   } catch (err) {
     console.error(`Error while trying to create and/or read user bridge login info: ${err.message}`);
   }
 }
 
 const getLights = async (req, res) => {
+  console.log(req.body);
   try {
-    // Create a new API instance that is authenticated with the new user we created
-    const authenticatedApi = await discoverAndCreateUser();
+    /*     // Create a new API instance that is authenticated with the new user we created
+    const authenticatedApi = await getBridgeUserData();
 
     // Get all of the lights connected to the hue bridge
-    const lights = await authenticatedApi.lights.getAll();
+    const lights = await authenticatedApi.lights.getAll(); */
 
-    // Handle no lights being found
-    if (lights.length == 0) {
-      res.send({ response: "There were no lights found for the connected Hue bridge" });
-      return;
-    }
+    const { success, userLights } = await axios
+      .get(`http://${req.body["bridge-ip"]}/clip/v2/resource/device`, {
+        headers: { "hue-application-key": localStorage.getItem("username"), "Access-Control-Allow-Origin": "*" },
+      })
+      .then((response) => response.data);
+
+    console.log(userLights);
 
     // Handle finding each light and gathering the required data
-    let userLights = [];
-    lights.forEach((light) => {
+    let retrievedLights = [];
+    userLights.forEach((light) => {
       let lightInfo = new Object();
       (lightInfo.id = light["data"]["id"]),
         (lightInfo.name = light["data"]["name"]),
         (lightInfo.productname = light["data"]["productname"]),
         (lightInfo.lightState = light["data"]["state"]);
-      userLights.push(lightInfo);
+      retrievedLights.push(lightInfo);
     });
 
     // Return the user light data
-    res.send({ success: true, userLights });
+    res.send({ success: true, retrievedLights });
   } catch (error) {
     console.error(error.message);
     res.send({ success: false, error: `Error while gathering light info: '${error.message}'` });
@@ -91,7 +75,7 @@ const getLights = async (req, res) => {
 const getScenes = async (req, res) => {
   try {
     // See 'authenticatedApi' from getLights function)
-    const authenticatedApi = await discoverAndCreateUser();
+    const authenticatedApi = await getBridgeUserData();
 
     // Get all of the scenes on the users bridge
     const scenes = await authenticatedApi.scenes.getAll();
@@ -131,7 +115,7 @@ const changePowerStatus = async (req, res) => {
 const changeScene = async (req, res) => {
   try {
     // See 'authenticatedApi' from getLights function)
-    const authenticatedApi = await discoverAndCreateUser();
+    const authenticatedApi = await getBridgeUserData();
 
     // Send req to change the current scene
     const sceneUpdated = authenticatedApi.scenes.activateScene(req.body.id);
@@ -143,4 +127,4 @@ const changeScene = async (req, res) => {
   }
 };
 
-module.exports = { getLights, getScenes, changePowerStatus, changeScene };
+module.exports = { getBridgeUserData, getLights, getScenes, changePowerStatus, changeScene };

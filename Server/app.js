@@ -8,7 +8,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Files
-const lights = require("./Routes/lights");
+const bridge = require("./Routes/bridge");
 
 // Cors
 const cors = require("cors");
@@ -23,11 +23,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Routes
-app.use("/bridge", lights);
+app.use("/bridge", bridge);
 
 app.get("/", (req, res) => {
   res.send("Hello world!");
 });
+
+const { createProxyMiddleware } = require("http-proxy-middleware");
+app.use(
+  "/api",
+  createProxyMiddleware({
+    target: "http://192.168.1.150/clip/v2",
+    changeOrigin: true,
+    onProxyRes: function (proxyRes, req, res) {
+      proxyRes.headers["access-control-allow-origin"] = "*";
+    },
+  })
+);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
