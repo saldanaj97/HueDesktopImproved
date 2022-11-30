@@ -1,5 +1,5 @@
 const express = require("express");
-const Lights = require("../Controllers/bridge");
+const Bridge = require("../Controllers/bridge");
 
 const BridgeRouter = express.Router();
 
