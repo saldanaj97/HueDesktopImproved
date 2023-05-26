@@ -6,9 +6,21 @@ const BRIDGE_API_URL = process.env.REACT_APP_BRIDGE_URL || "http://localhost:300
 /************* GETTERS *************/
 /************************************/
 
+// API call to get user authorization to access their bridge and lights
+export const getAccessToHueRemoteAPI = async () => {
+  try {
+    const { data } = await axios.get(BRIDGE_API_URL + "/data").then((response) => response);
+    return { success: true, redirectUrl: data };
+  } catch (error) {
+    return { success: false, message: "Failed to get new login data.", error };
+  }
+};
+
 // API call to get the users lights
 export const getLights = async () => {
-  const { success, userLights } = await axios.get(BRIDGE_API_URL + "/lights").then((response) => response.data);
+  const { success, userLights } = await axios
+    .get(BRIDGE_API_URL + "/lights", { "hue-application-key": localStorage.getItem("username"), "bridge-ip": localStorage.getItem("ipaddress") })
+    .then((response) => response.data);
   return { success, userLights };
 };
 
@@ -16,6 +28,16 @@ export const getLights = async () => {
 export const getScenes = async () => {
   const { success, userScenes } = await axios.get(BRIDGE_API_URL + "/scenes").then((response) => response.data);
   return { success, userScenes };
+};
+
+// API call to assign bridge login data to a new user
+export const getNewLoginData = async () => {
+  try {
+    const { data } = await axios.get(BRIDGE_API_URL + "/data").then((response) => response);
+    return { success: true, redirectUrl: data };
+  } catch (error) {
+    return { success: false, message: "Failed to get new login data.", error };
+  }
 };
 
 /************************************/

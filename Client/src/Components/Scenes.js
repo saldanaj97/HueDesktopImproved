@@ -9,7 +9,11 @@ export default function Scenes() {
   const [scenes, setScenes] = useState({ success: "", userScenes: [] });
 
   useEffect(() => {
-    getUserScenes();
+    if (!localStorage.getItem("username") || !localStorage.getItem("clientkey") || !localStorage.getItem("bridge-ip-address")) {
+      // Send API req to get bridge data
+    } else {
+      getUserScenes();
+    }
   }, []);
 
   // Function that will get and set the users scenes from the backend with API calls

@@ -3,12 +3,10 @@ const Bridge = require("../Controllers/bridge");
 
 const BridgeRouter = express.Router();
 
-// prettier-ignore
-BridgeRouter
-  .get('/data', Lights.getBridgeUserData)
-  .get("/lights", Lights.getLights)
-  .get("/scenes", Lights.getScenes)
-  .post("/power_update", Lights.changePowerStatus)
-  .post("/scene_change", Lights.changeScene);
+BridgeRouter.get("/data", Bridge.discoverBridge)
+  .get("/lights", Bridge.getLights)
+  .get("/scenes", Bridge.getScenes)
+  .post("/power_update", Bridge.changePowerStatus)
+  .post("/scene_change", Bridge.changeScene);
 
 module.exports = BridgeRouter;

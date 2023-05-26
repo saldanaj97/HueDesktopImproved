@@ -3,15 +3,33 @@ import { Flex, Text } from "@chakra-ui/react";
 import { IconButton } from "@chakra-ui/button";
 import { BsLightbulbFill } from "react-icons/bs";
 import { Box, Heading, Wrap, WrapItem } from "@chakra-ui/layout";
-import { getLights, setNewLight } from "./APIcalls";
+import { getLights, getNewLoginData } from "./APIcalls";
 import { theme } from "../index";
 
 export default function Lights() {
   const [lights, setLights] = useState({ success: "", userLights: [] });
+  const [loginData, setLoginData] = useState({ user: {}, ipAddress: "" });
 
   useEffect(() => {
-    getUsersLights();
+    // Handle the local storage
+    if (!localStorage.getItem("username") || !localStorage.getItem("clientkey") || !localStorage.getItem("bridge-ip-address")) {
+      getLoginCreds();
+    } else {
+      getUsersLights();
+    }
   }, []);
+
+  // Function that will handle getting and setting the users bridge login data
+  const getLoginCreds = async () => {
+    const { redirectUrl } = await getNewLoginData().then((response) => response);
+
+    /*     const { user, ipAddress } = data;
+    setLoginData({ user, ipAddress });
+    localStorage.setItem("username", user["username"]);
+    localStorage.setItem("clientkey", user["clientkey"]);
+    localStorage.setItem("bridge-ip-address", ipAddress);
+    console.log({ user, ipAddress }); */
+  };
 
   // Function that will handle getting and setting the users light data
   const getUsersLights = async () => {
